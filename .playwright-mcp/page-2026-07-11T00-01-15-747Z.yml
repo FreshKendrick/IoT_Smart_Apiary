@@ -1,0 +1,120 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - heading "Smart Apiary" [level=1] [ref=e5]
+        - generic [ref=e6]: LOCAL
+      - generic [ref=e8]:
+        - generic [ref=e9]: "!"
+        - generic [ref=e10]: "0"
+    - generic [ref=e11]:
+      - generic [ref=e12] [cursor=pointer]:
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - heading "Hive A1" [level=3] [ref=e15]
+            - generic [ref=e16]: NORMAL
+          - img [ref=e18]:
+            - generic [ref=e21]: "100"
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]: Temp
+            - generic [ref=e25]: 33.2C
+          - generic [ref=e26]:
+            - generic [ref=e27]: Humidity
+            - generic [ref=e28]: 62%
+          - generic [ref=e29]:
+            - generic [ref=e30]: Weight
+            - generic [ref=e31]: 45.8kg
+          - generic [ref=e32]:
+            - generic [ref=e33]: CO2
+            - generic [ref=e34]: 2800ppm
+        - generic [ref=e35]:
+          - generic [ref=e36]: Online
+          - generic [ref=e38]: just now
+      - generic [ref=e39] [cursor=pointer]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - heading "Hive B2" [level=3] [ref=e42]
+            - generic [ref=e43]: NORMAL
+          - img [ref=e45]:
+            - generic [ref=e48]: "100"
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - generic [ref=e51]: Temp
+            - generic [ref=e52]: 34.3C
+          - generic [ref=e53]:
+            - generic [ref=e54]: Humidity
+            - generic [ref=e55]: 55%
+          - generic [ref=e56]:
+            - generic [ref=e57]: Weight
+            - generic [ref=e58]: 52.1kg
+          - generic [ref=e59]:
+            - generic [ref=e60]: CO2
+            - generic [ref=e61]: 3100ppm
+        - generic [ref=e62]:
+          - generic [ref=e63]: Online
+          - generic [ref=e65]: just now
+      - generic [ref=e66] [cursor=pointer]:
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - heading "Hive C3" [level=3] [ref=e69]
+            - generic [ref=e70]: STRESSED
+          - img [ref=e72]:
+            - generic [ref=e75]: "85"
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: Temp
+            - generic [ref=e79]: 32.8C
+          - generic [ref=e80]:
+            - generic [ref=e81]: Humidity
+            - generic [ref=e82]: 58%
+          - generic [ref=e83]:
+            - generic [ref=e84]: Weight
+            - generic [ref=e85]: 41.2kg
+          - generic [ref=e86]:
+            - generic [ref=e87]: CO2
+            - generic [ref=e88]: 2950ppm
+        - generic [ref=e89]:
+          - generic [ref=e90]: Online
+          - generic [ref=e92]: just now
+      - generic [ref=e93] [cursor=pointer]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - heading "Hive D4" [level=3] [ref=e96]
+            - generic [ref=e97]: NORMAL
+          - img [ref=e99]:
+            - generic [ref=e102]: "0"
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: Temp
+            - generic [ref=e106]: "--"
+          - generic [ref=e107]:
+            - generic [ref=e108]: Humidity
+            - generic [ref=e109]: "--"
+          - generic [ref=e110]:
+            - generic [ref=e111]: Weight
+            - generic [ref=e112]: "--"
+          - generic [ref=e113]:
+            - generic [ref=e114]: CO2
+            - generic [ref=e115]: "--"
+        - generic [ref=e116]:
+          - generic [ref=e117]: Offline
+          - generic [ref=e119]: 14m ago
+    - button "⚙" [ref=e120] [cursor=pointer]
+  - generic [ref=e122]:
+    - generic [ref=e123]:
+      - heading "Demo Controls" [level=3] [ref=e124]
+      - button "×" [ref=e125] [cursor=pointer]
+    - generic [ref=e126]:
+      - paragraph [ref=e127]: Trigger a scenario to see the dashboard respond.
+      - generic [ref=e128]:
+        - button "Overheating Alert RUN" [ref=e129] [cursor=pointer]:
+          - generic [ref=e130]: Overheating Alert
+          - generic [ref=e131]: RUN
+        - button "Swarm Warning RUN" [ref=e132] [cursor=pointer]:
+          - generic [ref=e133]: Swarm Warning
+          - generic [ref=e134]: RUN
+        - button "Theft Detection RUN" [ref=e135] [cursor=pointer]:
+          - generic [ref=e136]: Theft Detection
+          - generic [ref=e137]: RUN
+      - button "Reset All Hives" [ref=e138] [cursor=pointer]

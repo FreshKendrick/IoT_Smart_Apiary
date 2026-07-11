@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Apiary Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- OVERVIEW SCREEN                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="overview-screen" class="screen active">
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="app-title">Smart Apiary</h1>
+        <span class="connection-badge" id="global-connection">LOCAL</span>
+      </div>
+      <div class="header-right">
+        <div class="alert-indicator" id="alert-indicator">
+          <span class="alert-icon">!</span>
+          <span class="alert-count" id="alert-count">0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="hive-list" id="hive-list">
+      <!-- Hive cards rendered by app.js -->
+    </div>
+
+    <!-- Demo Controls Trigger -->
+    <button class="demo-trigger" id="demo-trigger" title="Demo Controls">
+      <span class="demo-trigger-icon">DEMO</span>
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- DETAIL SCREEN                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="detail-screen" class="screen">
+    <header class="detail-header">
+      <button class="back-button" id="back-button">&larr; Back</button>
+      <h2 class="detail-hive-name" id="detail-hive-name"></h2>
+      <span class="connection-badge" id="detail-connection">LOCAL</span>
+    </header>
+
+    <div class="detail-content" id="detail-content">
+      <!-- Health Score -->
+      <section class="detail-section health-section">
+        <div class="health-ring-container">
+          <svg class="health-ring" viewBox="0 0 120 120" id="health-ring-svg">
+            <circle class="health-ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="health-ring-fill" cx="60" cy="60" r="52" id="health-ring-fill"/>
+          </svg>
+          <div class="health-score-text">
+            <span class="health-score-value" id="health-score-value">0</span>
+            <span class="health-score-label">Health</span>
+          </div>
+        </div>
+        <div class="health-status-text" id="health-status-text">--</div>
+      </section>
+
+      <!-- Live Sensor Readouts -->
+      <section class="detail-section">
+        <h3 class="section-title">Live Readings</h3>
+        <div class="sensor-grid" id="sensor-grid">
+          <!-- Filled by app.js -->
+        </div>
+      </section>
+
+      <!-- Weight Trend Chart -->
+      <section class="detail-section">
+        <h3 class="section-title">Weight Trend (24h)</h3>
+        <div class="chart-container">
+          <canvas id="weight-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- Environmental Charts -->
+      <section class="detail-section">
+        <h3 class="section-title">Environment (24h)</h3>
+        <div class="chart-container">
+          <canvas id="environment-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- Audio Timeline -->
+      <section class="detail-section">
+        <h3 class="section-title">Audio Classification</h3>
+        <div class="chart-container">
+          <canvas id="audio-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- Actuator Status -->
+      <section class="detail-section">
+        <h3 class="section-title">Actuators</h3>
+        <div class="actuator-panel" id="actuator-panel">
+          <!-- Filled by app.js -->
+        </div>
+      </section>
+
+      <!-- Alert Log -->
+      <section class="detail-section">
+        <h3 class="section-title">Alert Log</h3>
+        <div class="alert-log" id="alert-log">
+          <!-- Filled by app.js -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- DEMO CONTROLS PANEL                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="demo-panel" id="demo-panel">
+    <div class="demo-panel-header">
+      <h3>Demo Controls</h3>
+      <button class="demo-close" id="demo-close">&times;</button>
+    </div>
+    <div class="demo-panel-body">
+      <p class="demo-hint">Trigger a scenario to see the dashboard respond.</p>
+      <div class="demo-scenarios" id="demo-scenarios">
+        <!-- Filled by scenarios.js -->
+      </div>
+      <button class="demo-reset" id="demo-reset">Reset All Hives</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <script src="lib/chart.js"></script>
+  <script src="data.js"></script>
+  <script src="charts.js"></script>
+  <script src="scenarios.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

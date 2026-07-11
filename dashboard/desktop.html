@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Apiary Command Center</title>
+  <link rel="stylesheet" href="desktop.css">
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- HEADER BAR                                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <header class="cmd-header">
+    <div class="cmd-header-left">
+      <h1 class="cmd-title">Smart Apiary Command Center</h1>
+      <span class="cmd-connection" id="cmd-connection">LOCAL NETWORK</span>
+    </div>
+    <div class="cmd-header-right">
+      <div class="cmd-status" id="cmd-status">
+        <span class="cmd-status-online" id="cmd-online-count">12</span>
+        <span class="cmd-status-sep">/</span>
+        <span class="cmd-status-total">12</span>
+        <span class="cmd-status-label">ONLINE</span>
+      </div>
+      <div class="cmd-alerts" id="cmd-alerts">
+        <span class="cmd-alerts-count" id="cmd-alerts-count">0</span>
+        <span class="cmd-alerts-label">ALERTS</span>
+      </div>
+      <div class="cmd-refresh" id="cmd-refresh">
+        <span class="cmd-refresh-label">UPDATED</span>
+        <span class="cmd-refresh-time" id="cmd-refresh-time">--</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT                                                        -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main class="cmd-main">
+
+    <!-- KPI Stat Tiles -->
+    <section class="kpi-row" id="kpi-row">
+      <div class="kpi-tile" id="kpi-online">
+        <span class="kpi-value" id="kpi-online-value">12</span>
+        <span class="kpi-label">Hives Online</span>
+      </div>
+      <div class="kpi-tile" id="kpi-health">
+        <span class="kpi-value" id="kpi-health-value">--</span>
+        <span class="kpi-label">Avg Health Score</span>
+      </div>
+      <div class="kpi-tile" id="kpi-alerts">
+        <span class="kpi-value" id="kpi-alerts-value">0</span>
+        <span class="kpi-label">Active Alerts</span>
+      </div>
+      <div class="kpi-tile" id="kpi-temp">
+        <span class="kpi-value" id="kpi-temp-value">--</span>
+        <span class="kpi-label">Avg Temperature</span>
+      </div>
+    </section>
+
+    <!-- Comparison Charts -->
+    <section class="comparison-row">
+      <div class="comparison-panel">
+        <h3 class="panel-title">Health Score Overview</h3>
+        <div class="chart-container-short">
+          <canvas id="health-bars-chart"></canvas>
+        </div>
+      </div>
+      <div class="comparison-panel">
+        <h3 class="panel-title">Temperature Timeline (24h)</h3>
+        <div class="chart-container-short">
+          <canvas id="temp-heatmap-chart"></canvas>
+        </div>
+      </div>
+      <div class="comparison-panel">
+        <h3 class="panel-title">Current Weight Comparison</h3>
+        <div class="chart-container-short">
+          <canvas id="weight-bars-chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hive Grid -->
+    <section class="hive-grid-section">
+      <h3 class="panel-title">Hive Status Grid</h3>
+      <div class="hive-grid" id="hive-grid">
+        <!-- 12 hive cards rendered by desktop.js -->
+      </div>
+    </section>
+
+    <!-- Accordion Detail Panel -->
+    <section class="accordion-panel" id="accordion-panel">
+      <div class="accordion-inner" id="accordion-inner">
+        <!-- Filled dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- DEMO CONTROLS                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <button class="demo-trigger" id="demo-trigger">DEMO</button>
+  <div class="demo-panel" id="demo-panel">
+    <div class="demo-panel-header">
+      <h3>Demo Controls</h3>
+      <button class="demo-close" id="demo-close">&times;</button>
+    </div>
+    <div class="demo-panel-body">
+      <p class="demo-hint">Trigger a scenario to see the dashboard respond.</p>
+      <div class="demo-scenarios" id="demo-scenarios"></div>
+      <button class="demo-reset" id="demo-reset">Reset All Hives</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <script src="lib/chart.js"></script>
+  <script src="data.js"></script>
+  <script src="scenarios.js"></script>
+  <script src="charts.js"></script>
+  <script src="desktop.js"></script>
+</body>
+</html>

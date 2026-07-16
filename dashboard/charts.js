@@ -1,7 +1,7 @@
 /**
  * charts.js — Chart.js visualization for hive detail view
  * IoT Smart Apiary Dashboard Demo
- * Dark, utilitarian, no-glow aesthetic.
+ * Unified dark theme with honey-amber accents
  */
 
 // ── Chart Instances ───────────────────────────────────────────────────────
@@ -9,18 +9,18 @@ let weightChartInstance = null;
 let environmentChartInstance = null;
 let audioChartInstance = null;
 
-// ── Chart Defaults ────────────────────────────────────────────────────────
-Chart.defaults.color = '#8899aa';
-Chart.defaults.borderColor = '#1e3348';
+// ── Chart Defaults — Unified Theme ────────────────────────────────────────
+Chart.defaults.color = '#8b9eb0';
+Chart.defaults.borderColor = '#1c2530';
 Chart.defaults.font.family = "'Realtime Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
 Chart.defaults.font.size = 11;
-Chart.defaults.plugins.tooltip.backgroundColor = '#1b2838';
-Chart.defaults.plugins.tooltip.borderColor = '#2a4058';
+Chart.defaults.plugins.tooltip.backgroundColor = '#111620';
+Chart.defaults.plugins.tooltip.borderColor = '#263244';
 Chart.defaults.plugins.tooltip.borderWidth = 1;
-Chart.defaults.plugins.tooltip.titleColor = '#e2e8f0';
-Chart.defaults.plugins.tooltip.bodyColor = '#e2e8f0';
+Chart.defaults.plugins.tooltip.titleColor = '#e8edf2';
+Chart.defaults.plugins.tooltip.bodyColor = '#e8edf2';
 Chart.defaults.plugins.tooltip.padding = 10;
-Chart.defaults.plugins.tooltip.cornerRadius = 4;
+Chart.defaults.plugins.tooltip.cornerRadius = 6;
 
 // ── Weight Trend Chart ────────────────────────────────────────────────────
 function buildWeightChart(hiveId) {
@@ -42,12 +42,12 @@ function buildWeightChart(hiveId) {
       datasets: [{
         label: 'Weight (kg)',
         data,
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59, 130, 246, 0.08)',
+        borderColor: '#e6a83e',
+        backgroundColor: 'rgba(230, 168, 62, 0.08)',
         borderWidth: 1.5,
         pointRadius: 0,
         pointHoverRadius: 4,
-        pointHoverBackgroundColor: '#3b82f6',
+        pointHoverBackgroundColor: '#e6a83e',
         fill: true,
         tension: 0.3,
       }],
@@ -62,18 +62,18 @@ function buildWeightChart(hiveId) {
       scales: {
         x: {
           display: true,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             maxTicksLimit: 8,
             maxRotation: 0,
           },
         },
         y: {
           display: true,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             callback: (v) => v.toFixed(1) + ' kg',
           },
         },
@@ -106,12 +106,12 @@ function buildEnvironmentChart(hiveId) {
         {
           label: 'Temp (C)',
           data: tempData,
-          borderColor: '#ef4444',
-          backgroundColor: 'rgba(239, 68, 68, 0.05)',
+          borderColor: '#d94848',
+          backgroundColor: 'rgba(217, 72, 72, 0.05)',
           borderWidth: 1.5,
           pointRadius: 0,
           pointHoverRadius: 4,
-          pointHoverBackgroundColor: '#ef4444',
+          pointHoverBackgroundColor: '#d94848',
           fill: false,
           tension: 0.3,
           yAxisID: 'y',
@@ -119,11 +119,11 @@ function buildEnvironmentChart(hiveId) {
         {
           label: 'Humidity (%)',
           data: humidityData,
-          borderColor: '#22c55e',
+          borderColor: '#2ea868',
           borderWidth: 1.5,
           pointRadius: 0,
           pointHoverRadius: 4,
-          pointHoverBackgroundColor: '#22c55e',
+          pointHoverBackgroundColor: '#2ea868',
           fill: false,
           tension: 0.3,
           yAxisID: 'y1',
@@ -131,11 +131,11 @@ function buildEnvironmentChart(hiveId) {
         {
           label: 'CO2 (ppm)',
           data: co2Data,
-          borderColor: '#eab308',
+          borderColor: '#d9982b',
           borderWidth: 1.5,
           pointRadius: 0,
           pointHoverRadius: 4,
-          pointHoverBackgroundColor: '#eab308',
+          pointHoverBackgroundColor: '#d9982b',
           fill: false,
           tension: 0.3,
           yAxisID: 'y2',
@@ -151,7 +151,7 @@ function buildEnvironmentChart(hiveId) {
           display: true,
           position: 'bottom',
           labels: {
-            color: '#8899aa',
+            color: '#8b9eb0',
             usePointStyle: true,
             pointStyleWidth: 8,
             padding: 16,
@@ -163,9 +163,9 @@ function buildEnvironmentChart(hiveId) {
       scales: {
         x: {
           display: true,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             maxTicksLimit: 8,
             maxRotation: 0,
           },
@@ -174,14 +174,11 @@ function buildEnvironmentChart(hiveId) {
           type: 'linear',
           display: true,
           position: 'left',
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#ef4444',
+            color: '#d94848',
             callback: (v) => v.toFixed(1) + 'C',
             maxTicksLimit: 5,
-          },
-          title: {
-            display: false,
           },
         },
         y1: {
@@ -190,7 +187,7 @@ function buildEnvironmentChart(hiveId) {
           position: 'right',
           grid: { drawOnChartArea: false },
           ticks: {
-            color: '#22c55e',
+            color: '#2ea868',
             callback: (v) => v + '%',
             maxTicksLimit: 5,
           },
@@ -203,7 +200,7 @@ function buildEnvironmentChart(hiveId) {
           position: 'right',
           grid: { drawOnChartArea: false },
           ticks: {
-            color: '#eab308',
+            color: '#d9982b',
             callback: (v) => (v / 1000).toFixed(1) + 'k',
             maxTicksLimit: 5,
           },
@@ -225,7 +222,6 @@ function buildAudioChart(hiveId) {
     return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
   });
 
-  // Map audio status to numeric for stepped line
   const statusMap = { 'NORMAL': 0, 'STRESSED': 1, 'PRE_SWARM': 2, 'QUEENLESS': 3 };
   const data = history.audio.map((p) => statusMap[p.status] || 0);
 
@@ -236,12 +232,12 @@ function buildAudioChart(hiveId) {
       datasets: [{
         label: 'Audio Status',
         data,
-        borderColor: '#a855f7',
-        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+        borderColor: '#8b7ec8',
+        backgroundColor: 'rgba(139, 126, 200, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
         pointHoverRadius: 4,
-        pointHoverBackgroundColor: '#a855f7',
+        pointHoverBackgroundColor: '#8b7ec8',
         fill: true,
         stepped: true,
         tension: 0,
@@ -257,9 +253,9 @@ function buildAudioChart(hiveId) {
       scales: {
         x: {
           display: true,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             maxTicksLimit: 8,
             maxRotation: 0,
           },
@@ -268,9 +264,9 @@ function buildAudioChart(hiveId) {
           display: true,
           min: -0.2,
           max: 3.2,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#8899aa',
+            color: '#8b9eb0',
             stepSize: 1,
             callback: (v) => {
               const labels = ['NORMAL', 'STRESSED', 'PRE_SWARM', 'QUEENLESS'];
@@ -299,9 +295,9 @@ function buildHealthBars(hives, canvasId) {
   const labels = hives.map((h) => h.name);
   const scores = hives.map((h) => h.healthScore);
   const colors = scores.map((s) => {
-    if (s >= 75) return '#22c55e';
-    if (s >= 50) return '#eab308';
-    return '#ef4444';
+    if (s >= 75) return '#2ea868';
+    if (s >= 50) return '#d9982b';
+    return '#d94848';
   });
 
   healthBarsInstance = new Chart(ctx, {
@@ -329,13 +325,13 @@ function buildHealthBars(hives, canvasId) {
         x: {
           min: 0,
           max: 100,
-          grid: { color: '#1a2a3a' },
-          ticks: { color: '#5a6e80', stepSize: 20 },
+          grid: { color: '#1c2530' },
+          ticks: { color: '#54687a', stepSize: 20 },
         },
         y: {
           grid: { display: false },
           ticks: {
-            color: '#8899aa',
+            color: '#8b9eb0',
             font: { size: 10 },
           },
         },
@@ -344,18 +340,24 @@ function buildHealthBars(hives, canvasId) {
   });
 }
 
-// ── Temperature Heatmap ───────────────────────────────────────────────────
+// ── Temperature Timeline (Line Chart, 24h) ────────────────────────────────
 function buildTempHeatmap(hives, canvasId) {
   if (tempHeatmapInstance) tempHeatmapInstance.destroy();
 
   const ctx = document.getElementById(canvasId).getContext('2d');
 
-  // Build heatmap data: rows = hives, cols = time points (use first hive's timestamps)
   const history = getHistory(hives[0].id);
   const timeLabels = history.sensors.map((p) => {
     const d = new Date(p.timestamp);
     return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
   });
+
+  // Subtle line colors per hive so they don't overwhelm
+  const palette = [
+    '#e6a83e', '#4a9ec8', '#2ea868', '#d9982b', '#d94848',
+    '#8b7ec8', '#5a9e8e', '#c47e5a', '#6babcd', '#c8906a',
+    '#7ea8c4', '#b8a04e'
+  ];
 
   const datasets = hives.map((hive, idx) => {
     const h = getHistory(hive.id);
@@ -363,13 +365,17 @@ function buildTempHeatmap(hives, canvasId) {
     return {
       label: hive.name,
       data: temps,
-      borderWidth: 0,
-      borderRadius: 0,
+      borderColor: palette[idx % palette.length],
+      backgroundColor: 'transparent',
+      borderWidth: 1.2,
+      pointRadius: 0,
+      pointHoverRadius: 3,
+      tension: 0.3,
     };
   });
 
   tempHeatmapInstance = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: timeLabels,
       datasets,
@@ -377,8 +383,19 @@ function buildTempHeatmap(hives, canvasId) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            color: '#8b9eb0',
+            usePointStyle: true,
+            boxWidth: 6,
+            padding: 8,
+            font: { size: 8 },
+          },
+        },
         tooltip: {
           callbacks: {
             title: (items) => items[0]?.dataset?.label + ' | ' + items[0]?.label,
@@ -388,64 +405,34 @@ function buildTempHeatmap(hives, canvasId) {
       },
       scales: {
         x: {
-          stacked: false,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             maxTicksLimit: 8,
             maxRotation: 0,
             font: { size: 9 },
           },
         },
         y: {
-          stacked: false,
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#8899aa',
+            color: '#8b9eb0',
             font: { size: 10 },
+            callback: (v) => v.toFixed(1) + 'C',
           },
           title: {
             display: true,
             text: 'Temperature (C)',
-            color: '#5a6e80',
+            color: '#54687a',
             font: { size: 10 },
           },
         },
       },
     },
   });
-
-  // Color each dataset by the hive's average temperature
-  // Apply color after creation since Chart.js dataset-level bar colors need plugin
-  applyTempColors(datasets);
 }
 
-function applyTempColors(datasets) {
-  // Post-render color coding: each hive's bars colored by temp value
-  if (!tempHeatmapInstance) return;
-
-  const meta = tempHeatmapInstance.getDatasetMeta(0);
-  if (!meta || !meta.data) return;
-
-  // Color each dataset's bars based on their temperature values
-  datasets.forEach((ds, dsIdx) => {
-    const dsMeta = tempHeatmapInstance.getDatasetMeta(dsIdx);
-    if (!dsMeta || !dsMeta.data) return;
-    dsMeta.data.forEach((bar, i) => {
-      const temp = ds.data[i];
-      let color = '#3b82f6'; // cool blue
-      if (temp > 36) color = '#ef4444';      // hot red
-      else if (temp > 34) color = '#eab308'; // warm yellow
-      else if (temp > 32) color = '#22c55e'; // optimal green
-      else if (temp > 30) color = '#60a5fa'; // mild blue
-      else color = '#93c5fd';                 // cool light blue
-      bar.options = bar.options || {};
-      bar.options.backgroundColor = color;
-    });
-  });
-
-  tempHeatmapInstance.update('none');
-}
+// applyTempColors no longer used — colors set at dataset creation
 
 // ── Weight Comparison Bar Chart ───────────────────────────────────────────
 function buildWeightBars(hives, canvasId) {
@@ -455,8 +442,8 @@ function buildWeightBars(hives, canvasId) {
   const labels = hives.map((h) => h.name);
   const weights = hives.map((h) => h.weight);
   const colors = hives.map((h) => {
-    if (h.status === 'offline') return '#6b7280';
-    return '#3b82f6';
+    if (h.status === 'offline') return '#4a5568';
+    return '#e6a83e';
   });
 
   weightBarsInstance = new Chart(ctx, {
@@ -482,16 +469,16 @@ function buildWeightBars(hives, canvasId) {
       },
       scales: {
         x: {
-          grid: { color: '#1a2a3a' },
+          grid: { color: '#1c2530' },
           ticks: {
-            color: '#5a6e80',
+            color: '#54687a',
             callback: (v) => v.toFixed(1) + ' kg',
           },
         },
         y: {
           grid: { display: false },
           ticks: {
-            color: '#8899aa',
+            color: '#8b9eb0',
             font: { size: 10 },
           },
         },

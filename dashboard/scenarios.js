@@ -206,6 +206,4 @@ function updateScenarioButtons() {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  buildScenarioButtons();
-});
+// buildScenarioButtons() is called by the dashboard's own init (desktop.js or app.js)

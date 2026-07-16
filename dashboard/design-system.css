@@ -1,0 +1,174 @@
+/**
+ * design-system.css — Unified design tokens for IoT Smart Apiary
+ * Shared by desktop.html and index.html
+ * Deep warm-slate dark theme with honey-amber accents
+ */
+
+/* ── Font ───────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Realtime Text';
+  src: url('https://db.onlinewebfonts.com/t/fc219f40a29db82863629ed561a1830f.eot');
+  src: url('https://db.onlinewebfonts.com/t/fc219f40a29db82863629ed561a1830f.eot?#iefix') format('embedded-opentype'),
+       url('https://db.onlinewebfonts.com/t/fc219f40a29db82863629ed561a1830f.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/fc219f40a29db82863629ed561a1830f.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/fc219f40a29db82863629ed561a1830f.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design Tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Background hierarchy — deep warm-slate */
+  --bg-root:        #0a0e14;
+  --bg-sidebar:     #0c1018;
+  --bg-surface:     #111620;
+  --bg-card:        #18212b;
+  --bg-card-hover:  #1e2936;
+  --bg-card-alt:    #15202d;
+  --bg-input:       #0d1117;
+  --bg-overlay:     rgba(10, 14, 20, 0.85);
+
+  /* Borders */
+  --border-subtle:  #1c2530;
+  --border-mid:     #263244;
+  --border-accent:  #3a5068;
+
+  /* Text */
+  --text-primary:   #e8edf2;
+  --text-secondary: #8b9eb0;
+  --text-muted:     #54687a;
+  --text-inverse:   #0a0e14;
+
+  /* Semantic / Status */
+  --green:          #2ea868;
+  --green-bg:       rgba(46, 168, 104, 0.12);
+  --green-border:   rgba(46, 168, 104, 0.35);
+  --yellow:         #d9982b;
+  --yellow-bg:      rgba(217, 152, 43, 0.12);
+  --yellow-border:  rgba(217, 152, 43, 0.35);
+  --red:            #d94848;
+  --red-bg:         rgba(217, 72, 72, 0.12);
+  --red-border:     rgba(217, 72, 72, 0.35);
+  --offline:        #4a5568;
+  --offline-bg:     rgba(74, 85, 104, 0.12);
+
+  /* Accent — honey-amber */
+  --accent:         #e6a83e;
+  --accent-light:   #f0c060;
+  --accent-bg:      rgba(230, 168, 62, 0.12);
+  --accent-border:  rgba(230, 168, 62, 0.40);
+  --accent-hover:   #f0c060;
+
+  /* Info / Misc */
+  --blue:           #4a9ec8;
+  --blue-bg:        rgba(74, 158, 200, 0.12);
+  --purple:         #8b7ec8;
+  --purple-bg:      rgba(139, 126, 200, 0.12);
+
+  /* Typography */
+  --font-ui:        'Realtime Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:      'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+
+  /* Type scale */
+  --text-2xs:       0.625rem;   /* 10px */
+  --text-xs:        0.6875rem;  /* 11px */
+  --text-sm:        0.75rem;    /* 12px */
+  --text-base:      0.875rem;   /* 14px */
+  --text-lg:        1rem;       /* 16px */
+  --text-xl:        1.25rem;    /* 20px */
+  --text-2xl:       1.5rem;     /* 24px */
+  --text-3xl:       2rem;       /* 32px */
+
+  --fw-normal:      400;
+  --fw-medium:      500;
+  --fw-semibold:    600;
+  --fw-bold:        700;
+
+  --ls-tight:       -0.01em;
+  --ls-normal:      0.01em;
+  --ls-wide:        0.04em;
+  --ls-label:       0.06em;
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+
+  /* Radii */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  /* Easing (emil-design-eng: custom cubic-bezier curves, never built-in) */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --sidebar-width:      250px;
+  --sidebar-collapsed:  64px;
+  --topbar-height:      48px;
+  --bottom-nav-height:  52px;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg-root);
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: var(--ls-normal);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-root);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-accent);
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Utility ────────────────────────────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}

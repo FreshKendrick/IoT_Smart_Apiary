@@ -2,23 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Smart Apiary Dashboard</title>
+  <link rel="stylesheet" href="design-system.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- OVERVIEW SCREEN                                                     -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- OVERVIEW SCREEN                                                       -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
   <div id="overview-screen" class="screen active">
     <header class="app-header">
       <div class="header-left">
+        <img src="../bee_logo.png" alt="Smart Apiary" class="header-logo">
         <h1 class="app-title">Smart Apiary</h1>
         <span class="connection-badge" id="global-connection">LOCAL</span>
       </div>
       <div class="header-right">
         <div class="alert-indicator" id="alert-indicator">
-          <span class="alert-icon">!</span>
+          <svg class="alert-bell" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+          </svg>
           <span class="alert-count" id="alert-count">0</span>
         </div>
       </div>
@@ -27,19 +32,19 @@
     <div class="hive-list" id="hive-list">
       <!-- Hive cards rendered by app.js -->
     </div>
-
-    <!-- Demo Controls Trigger -->
-    <button class="demo-trigger" id="demo-trigger" title="Demo Controls">
-      <span class="demo-trigger-icon">DEMO</span>
-    </button>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- DETAIL SCREEN                                                       -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- DETAIL SCREEN                                                         -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
   <div id="detail-screen" class="screen">
     <header class="detail-header">
-      <button class="back-button" id="back-button">&larr; Back</button>
+      <button class="back-button" id="back-button">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+        Back
+      </button>
       <h2 class="detail-hive-name" id="detail-hive-name"></h2>
       <span class="connection-badge" id="detail-connection">LOCAL</span>
     </header>
@@ -110,9 +115,83 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- DEMO CONTROLS PANEL                                                  -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- BOTTOM TAB BAR                                                        -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <nav class="bottom-tabs" id="bottom-tabs">
+    <button class="bottom-tab active" data-tab="hives">
+      <svg class="bottom-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h2v2H7V5zm4 0h2v2h-2V5zm-4 4h2v2H7V9zm4 0h2v2h-2V9zm-4 4h2v2H7v-2zm4 0h2v2h-2v-2z" clip-rule="evenodd"/>
+      </svg>
+      <span class="bottom-tab-label">Hives</span>
+    </button>
+    <button class="bottom-tab" data-tab="stats">
+      <svg class="bottom-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+      </svg>
+      <span class="bottom-tab-label">Stats</span>
+    </button>
+    <button class="bottom-tab" data-tab="alerts-tab">
+      <svg class="bottom-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+      </svg>
+      <span class="bottom-tab-label">Alerts</span>
+      <span class="bottom-tab-badge" id="tab-alert-badge">0</span>
+    </button>
+    <button class="bottom-tab" data-tab="more">
+      <svg class="bottom-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm4 2a2 2 0 100-4 2 2 0 000 4z"/>
+      </svg>
+      <span class="bottom-tab-label">More</span>
+    </button>
+  </nav>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- MORE DRAWER                                                           -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <aside class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer-content" id="drawer-content">
+      <div class="drawer-header">
+        <h3>More</h3>
+        <button class="drawer-close" id="drawer-close">&times;</button>
+      </div>
+      <nav class="drawer-nav">
+        <a class="drawer-item" href="#">
+          <svg class="drawer-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+          </svg>
+          <span>Analytics</span>
+        </a>
+        <a class="drawer-item" href="#">
+          <svg class="drawer-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm8 0a3 3 0 11-6 0 3 3 0 016 0zm-9 7a5 5 0 00-5 5h14a5 5 0 00-9-5z"/>
+          </svg>
+          <span>Users</span>
+        </a>
+        <a class="drawer-item" href="#">
+          <svg class="drawer-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+          </svg>
+          <span>Settings</span>
+        </a>
+        <a class="drawer-item" href="#">
+          <svg class="drawer-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <span>About</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- DEMO CONTROLS PANEL                                                   -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <button class="demo-trigger" id="demo-trigger" title="Demo Controls">
+    <span class="demo-trigger-icon">DEMO</span>
+  </button>
+
   <div class="demo-panel" id="demo-panel">
     <div class="demo-panel-header">
       <h3>Demo Controls</h3>
@@ -127,9 +206,9 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- SCRIPTS                                                              -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                                -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
   <script src="lib/chart.js"></script>
   <script src="data.js"></script>
   <script src="charts.js"></script>

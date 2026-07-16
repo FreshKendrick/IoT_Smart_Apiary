@@ -4,102 +4,263 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Apiary Command Center</title>
+  <link rel="stylesheet" href="design-system.css">
   <link rel="stylesheet" href="desktop.css">
 </head>
 <body>
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- HEADER BAR                                                          -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <header class="cmd-header">
-    <div class="cmd-header-left">
-      <h1 class="cmd-title">Smart Apiary Command Center</h1>
-      <span class="cmd-connection" id="cmd-connection">LOCAL NETWORK</span>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- SIDEBAR                                                               -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Brand -->
+    <div class="sidebar-brand">
+      <img src="../bee_logo.png" alt="Smart Apiary" class="sidebar-logo-img">
+      <span class="sidebar-brand-text">Smart Apiary</span>
     </div>
-    <div class="cmd-header-right">
-      <div class="cmd-status" id="cmd-status">
-        <span class="cmd-status-online" id="cmd-online-count">12</span>
-        <span class="cmd-status-sep">/</span>
-        <span class="cmd-status-total">12</span>
-        <span class="cmd-status-label">ONLINE</span>
-      </div>
-      <div class="cmd-alerts" id="cmd-alerts">
-        <span class="cmd-alerts-count" id="cmd-alerts-count">0</span>
-        <span class="cmd-alerts-label">ALERTS</span>
-      </div>
-      <div class="cmd-refresh" id="cmd-refresh">
-        <span class="cmd-refresh-label">UPDATED</span>
-        <span class="cmd-refresh-time" id="cmd-refresh-time">--</span>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+
+      <a class="sidebar-item active" data-page="dashboard" href="#" title="Dashboard">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm10 0a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="sidebar-item" data-page="hive-status" href="#" title="Hive Status">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h2v2H7V5zm4 0h2v2h-2V5zm-4 4h2v2H7V9zm4 0h2v2h-2V9zm-4 4h2v2H7v-2zm4 0h2v2h-2v-2z" clip-rule="evenodd"/>
+        </svg>
+        <span>Hive Status</span>
+      </a>
+
+      <div class="sidebar-section-label">Analysis</div>
+
+      <a class="sidebar-item" data-page="analytics" href="#" title="Analytics">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+        </svg>
+        <span>Analytics</span>
+      </a>
+
+      <div class="sidebar-section-label">System</div>
+
+      <a class="sidebar-item" data-page="users" href="#" title="Users">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm8 0a3 3 0 11-6 0 3 3 0 016 0zm-9 7a5 5 0 00-5 5h14a5 5 0 00-9-5z"/>
+        </svg>
+        <span>Users</span>
+      </a>
+
+      <a class="sidebar-item" data-page="notifications" href="#" title="Notifications">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+        </svg>
+        <span>Notifications</span>
+        <span class="sidebar-badge" id="sidebar-alert-count">0</span>
+      </a>
+
+      <a class="sidebar-item" data-page="settings" href="#" title="Settings">
+        <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-connection" id="sidebar-connection">
+        <span class="sidebar-connection-dot" id="sidebar-connection-dot"></span>
+        <span class="sidebar-connection-text" id="sidebar-connection-text">LOCAL NETWORK</span>
       </div>
     </div>
-  </header>
+  </aside>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- MAIN CONTENT                                                        -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <main class="cmd-main">
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN WRAPPER                                                          -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="main-wrapper" id="main-wrapper">
 
-    <!-- KPI Stat Tiles -->
-    <section class="kpi-row" id="kpi-row">
-      <div class="kpi-tile" id="kpi-online">
-        <span class="kpi-value" id="kpi-online-value">12</span>
-        <span class="kpi-label">Hives Online</span>
-      </div>
-      <div class="kpi-tile" id="kpi-health">
-        <span class="kpi-value" id="kpi-health-value">--</span>
-        <span class="kpi-label">Avg Health Score</span>
-      </div>
-      <div class="kpi-tile" id="kpi-alerts">
-        <span class="kpi-value" id="kpi-alerts-value">0</span>
-        <span class="kpi-label">Active Alerts</span>
-      </div>
-      <div class="kpi-tile" id="kpi-temp">
-        <span class="kpi-value" id="kpi-temp-value">--</span>
-        <span class="kpi-label">Avg Temperature</span>
-      </div>
-    </section>
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle" title="Toggle sidebar">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+        </svg>
+      </button>
 
-    <!-- Comparison Charts -->
-    <section class="comparison-row">
-      <div class="comparison-panel">
-        <h3 class="panel-title">Health Score Overview</h3>
-        <div class="chart-container-short">
-          <canvas id="health-bars-chart"></canvas>
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+
+      <div class="topbar-spacer"></div>
+
+      <div class="topbar-actions">
+        <div class="topbar-stat">
+          <span class="topbar-stat-value" id="topbar-online">12 / 12</span>
+          <span class="topbar-stat-label">ONLINE</span>
+        </div>
+        <div class="topbar-stat" id="topbar-alerts-stat">
+          <span class="topbar-stat-value" id="topbar-alerts">0</span>
+          <span class="topbar-stat-label">ALERTS</span>
+        </div>
+        <div class="topbar-time">
+          <span class="topbar-time-label">Updated</span>
+          <span class="topbar-time-value" id="topbar-updated">--</span>
         </div>
       </div>
-      <div class="comparison-panel">
-        <h3 class="panel-title">Temperature Timeline (24h)</h3>
-        <div class="chart-container-short">
-          <canvas id="temp-heatmap-chart"></canvas>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <!-- DASHBOARD VIEW (default)                                            -->
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <div class="page-view active" id="dashboard-view">
+
+      <!-- KPI Stat Tiles -->
+      <section class="kpi-row" id="kpi-row">
+        <div class="kpi-tile" id="kpi-online">
+          <div class="kpi-tile-accent online"></div>
+          <span class="kpi-value" id="kpi-online-value">12</span>
+          <span class="kpi-label">Hives Online</span>
         </div>
-      </div>
-      <div class="comparison-panel">
-        <h3 class="panel-title">Current Weight Comparison</h3>
-        <div class="chart-container-short">
-          <canvas id="weight-bars-chart"></canvas>
+        <div class="kpi-tile" id="kpi-health">
+          <div class="kpi-tile-accent health"></div>
+          <span class="kpi-value" id="kpi-health-value">--</span>
+          <span class="kpi-label">Avg Health Score</span>
         </div>
-      </div>
-    </section>
+        <div class="kpi-tile" id="kpi-alerts">
+          <div class="kpi-tile-accent alerts"></div>
+          <span class="kpi-value" id="kpi-alerts-value">0</span>
+          <span class="kpi-label">Active Alerts</span>
+        </div>
+        <div class="kpi-tile" id="kpi-temp">
+          <div class="kpi-tile-accent temp"></div>
+          <span class="kpi-value" id="kpi-temp-value">--</span>
+          <span class="kpi-label">Avg Temperature</span>
+        </div>
+      </section>
 
-    <!-- Hive Grid -->
-    <section class="hive-grid-section">
-      <h3 class="panel-title">Hive Status Grid</h3>
-      <div class="hive-grid" id="hive-grid">
-        <!-- 12 hive cards rendered by desktop.js -->
-      </div>
-    </section>
+      <!-- Comparison Charts -->
+      <section class="comparison-row">
+        <div class="comparison-panel">
+          <h3 class="panel-title">Health Score Overview</h3>
+          <div class="chart-container-short">
+            <canvas id="health-bars-chart"></canvas>
+          </div>
+        </div>
+        <div class="comparison-panel">
+          <h3 class="panel-title">Temperature Timeline (24h)</h3>
+          <div class="chart-container-short">
+            <canvas id="temp-heatmap-chart"></canvas>
+          </div>
+        </div>
+        <div class="comparison-panel">
+          <h3 class="panel-title">Current Weight Comparison</h3>
+          <div class="chart-container-short">
+            <canvas id="weight-bars-chart"></canvas>
+          </div>
+        </div>
+      </section>
 
-    <!-- Accordion Detail Panel -->
-    <section class="accordion-panel" id="accordion-panel">
-      <div class="accordion-inner" id="accordion-inner">
-        <!-- Filled dynamically -->
-      </div>
-    </section>
+      <!-- Hive Grid -->
+      <section class="hive-grid-section" id="hive-grid-section">
+        <h3 class="panel-title">Hive Status Grid</h3>
+        <div class="hive-grid" id="hive-grid">
+          <!-- 12 hive cards rendered by desktop.js -->
+        </div>
+      </section>
 
-  </main>
+      <!-- Accordion Detail Panel -->
+      <section class="accordion-panel" id="accordion-panel">
+        <div class="accordion-inner" id="accordion-inner">
+          <!-- Filled dynamically -->
+        </div>
+      </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- DEMO CONTROLS                                                       -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+      </div><!-- /dashboard-view -->
+
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <!-- HIVE DETAIL PAGE (shown on hive card click)                        -->
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <div class="page-view" id="hive-detail-page">
+        <div class="detail-page-header">
+          <button class="detail-back-btn" id="detail-back-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Back to Dashboard
+          </button>
+          <h2 class="detail-page-title" id="detail-page-hive-name">Hive Details</h2>
+          <span class="detail-page-status" id="detail-page-status"></span>
+        </div>
+        <div class="detail-page-content" id="detail-page-content">
+          <!-- Filled dynamically by desktop.js -->
+        </div>
+      </div><!-- /hive-detail-page -->
+
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <!-- USER PROFILE PAGE                                                   -->
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <div class="page-view" id="user-profile-page">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <svg viewBox="0 0 64 64" fill="currentColor" width="64" height="64">
+              <circle cx="32" cy="20" r="12"/>
+              <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24"/>
+            </svg>
+          </div>
+          <h2 class="profile-name">Admin User</h2>
+          <p class="profile-role">Apiary Manager</p>
+          <div class="profile-info">
+            <div class="profile-info-row">
+              <span class="profile-info-label">Email</span>
+              <span class="profile-info-value">admin@smartapiary.local</span>
+            </div>
+            <div class="profile-info-row">
+              <span class="profile-info-label">Location</span>
+              <span class="profile-info-value">Main Apiary Site</span>
+            </div>
+            <div class="profile-info-row">
+              <span class="profile-info-label">Hives Managed</span>
+              <span class="profile-info-value">12</span>
+            </div>
+            <div class="profile-info-row">
+              <span class="profile-info-label">Member Since</span>
+              <span class="profile-info-value">January 2025</span>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="profile-btn">Edit Profile</button>
+            <button class="profile-btn profile-btn-outline">Change Password</button>
+            <button class="profile-btn profile-btn-outline profile-btn-danger">Sign Out</button>
+          </div>
+        </div>
+      </div><!-- /user-profile-page -->
+
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <!-- NOTIFICATIONS PAGE                                                  -->
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <div class="page-view" id="notifications-page">
+        <div class="notifications-page-header">
+          <h2>Notifications</h2>
+          <span class="notifications-count" id="notifications-count">0 alerts</span>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+          <!-- Filled dynamically by desktop.js -->
+        </div>
+      </div><!-- /notifications-page -->
+
+    </main>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- DEMO CONTROLS                                                         -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
   <button class="demo-trigger" id="demo-trigger">DEMO</button>
   <div class="demo-panel" id="demo-panel">
     <div class="demo-panel-header">
@@ -113,9 +274,9 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- SCRIPTS                                                              -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                                -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
   <script src="lib/chart.js"></script>
   <script src="data.js"></script>
   <script src="scenarios.js"></script>

@@ -1,6 +1,7 @@
 /**
  * app.js — App initialization, navigation, and rendering
  * IoT Smart Apiary Dashboard Demo
+ * Bottom tab navigation + overview/detail screens
  */
 
 // ── State ─────────────────────────────────────────────────────────────────
@@ -29,13 +30,213 @@ const demoClose = document.getElementById('demo-close');
 // ── Init ──────────────────────────────────────────────────────────────────
 function init() {
   initData(4);
+  initBottomNav();
+  initDrawer();
   renderOverview();
   startSimulation();
+  buildScenarioButtons();
 
   // Event listeners
   backButton.addEventListener('click', navigateToOverview);
   demoTrigger.addEventListener('click', toggleDemoPanel);
   demoClose.addEventListener('click', closeDemoPanel);
+}
+
+// ── Bottom Navigation ─────────────────────────────────────────────────────
+function initBottomNav() {
+  const tabs = document.querySelectorAll('.bottom-tab');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const tabName = tab.dataset.tab;
+
+      // Update active
+      tabs.forEach((t) => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      switch (tabName) {
+        case 'hives':
+          // Return to overview
+          if (detailScreen.classList.contains('active')) {
+            navigateToOverview();
+          }
+          break;
+        case 'stats':
+          // Show stats panel (within overview)
+          renderStatsView();
+          if (detailScreen.classList.contains('active')) {
+            navigateToOverview();
+          }
+          break;
+        case 'alerts-tab':
+          // Show consolidated alerts
+          renderAlertsView();
+          if (detailScreen.classList.contains('active')) {
+            navigateToOverview();
+          }
+          break;
+        case 'more':
+          // Open the drawer
+          openDrawer();
+          break;
+      }
+    });
+  });
+}
+
+function updateTabAlertBadge() {
+  const hives = getHives();
+  let count = 0;
+  hives.forEach((h) => {
+    if (h.status === 'alert') count++;
+    if (h.alertLog) {
+      h.alertLog.forEach((a) => {
+        if (a.level === 'critical') count++;
+      });
+    }
+  });
+
+  const badge = document.getElementById('tab-alert-badge');
+  badge.textContent = count > 0 ? count : '';
+  badge.setAttribute('data-count', count);
+}
+
+// ── Drawer ────────────────────────────────────────────────────────────────
+function initDrawer() {
+  const drawer = document.getElementById('mobile-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  const closeBtn = document.getElementById('drawer-close');
+
+  overlay.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+}
+
+function openDrawer() {
+  document.getElementById('mobile-drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('mobile-drawer').classList.remove('open');
+  // Switch back to hives tab
+  const tabs = document.querySelectorAll('.bottom-tab');
+  tabs.forEach((t) => t.classList.remove('active'));
+  const hivesTab = document.querySelector('[data-tab="hives"]');
+  if (hivesTab) hivesTab.classList.add('active');
+}
+
+// ── Stats View ────────────────────────────────────────────────────────────
+function renderStatsView() {
+  const hives = getHives();
+  const online = hives.filter((h) => h.status !== 'offline');
+  const avgHealth = online.length > 0
+    ? Math.round(online.reduce((s, h) => s + h.healthScore, 0) / online.length)
+    : 0;
+  const avgTemp = online.length > 0
+    ? (online.reduce((s, h) => s + h.temperature, 0) / online.length).toFixed(1)
+    : '--';
+  let alerts = 0;
+  hives.forEach((h) => {
+    if (h.status === 'alert') alerts++;
+    if (h.alertLog) h.alertLog.forEach((a) => { if (a.level === 'critical') alerts++; });
+  });
+
+  hiveList.innerHTML = `
+    <div class="stats-content">
+      <div class="stats-kpi-row">
+        <div class="stats-kpi-card">
+          <span class="stats-kpi-value">${online.length} / ${hives.length}</span>
+          <span class="stats-kpi-label">Hives Online</span>
+        </div>
+        <div class="stats-kpi-card">
+          <span class="stats-kpi-value">${avgHealth}</span>
+          <span class="stats-kpi-label">Avg Health</span>
+        </div>
+        <div class="stats-kpi-card">
+          <span class="stats-kpi-value">${alerts}</span>
+          <span class="stats-kpi-label">Active Alerts</span>
+        </div>
+        <div class="stats-kpi-card">
+          <span class="stats-kpi-value">${avgTemp}°C</span>
+          <span class="stats-kpi-label">Avg Temp</span>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h3 class="section-title">Hive Health Overview</h3>
+        <div class="chart-container">
+          <canvas id="stats-health-chart"></canvas>
+        </div>
+      </div>
+    </div>`;
+
+  // Build mini health bars chart
+  setTimeout(() => {
+    const canvas = document.getElementById('stats-health-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: hives.map((h) => h.name),
+        datasets: [{
+          data: hives.map((h) => h.healthScore),
+          backgroundColor: hives.map((h) => {
+            if (h.healthScore >= 75) return '#2ea868';
+            if (h.healthScore >= 50) return '#d9982b';
+            return '#d94848';
+          }),
+          borderRadius: 4,
+        }],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { min: 0, max: 100, grid: { color: '#1c2530' }, ticks: { color: '#54687a' } },
+          y: { grid: { display: false }, ticks: { color: '#8b9eb0', font: { size: 11 } } },
+        },
+      },
+    });
+  }, 100);
+}
+
+// ── Alerts View ───────────────────────────────────────────────────────────
+function renderAlertsView() {
+  const hives = getHives();
+  let allAlerts = [];
+  hives.forEach((h) => {
+    if (h.alertLog && h.alertLog.length > 0) {
+      h.alertLog.forEach((a) => {
+        allAlerts.push({ ...a, hiveName: h.name, hiveId: h.id });
+      });
+    }
+  });
+
+  if (allAlerts.length === 0) {
+    hiveList.innerHTML = `
+      <div style="padding: var(--space-8) var(--space-4); text-align: center; color: var(--text-muted);">
+        <p>No alerts</p>
+      </div>`;
+    return;
+  }
+
+  allAlerts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  hiveList.innerHTML = `
+    <div style="padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+      ${allAlerts.map((a) => `
+        <div class="alert-entry level-${a.level}" style="cursor:pointer;"
+             onclick="navigateToDetail('${a.hiveId}')">
+          <div style="flex:1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-weight:600;font-size:0.8rem;">${escapeHtml(a.hiveName)}</span>
+              <span class="alert-entry-time">${formatTimeAgo(a.timestamp)}</span>
+            </div>
+            <span style="font-size:0.75rem;color:var(--text-secondary);">${escapeHtml(a.message)}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
 }
 
 // ── Simulation ────────────────────────────────────────────────────────────
@@ -95,11 +296,11 @@ function createHiveCard(hive) {
 
   // Health ring
   const score = hive.healthScore;
-  const circumference = 2 * Math.PI * 22; // r=22
+  const circumference = 2 * Math.PI * 22;
   const offset = circumference - (score / 100) * circumference;
-  let strokeColor = '#22c55e';
-  if (score < 50) strokeColor = '#ef4444';
-  else if (score < 75) strokeColor = '#eab308';
+  let strokeColor = '#2ea868';
+  if (score < 50) strokeColor = '#d94848';
+  else if (score < 75) strokeColor = '#d9982b';
 
   // Connection dot
   const dotClass = hive.status === 'offline' ? 'offline' : 'online';
@@ -163,9 +364,9 @@ function navigateToDetail(hiveId) {
   detailConnection.textContent = hive.connectionMode.toUpperCase();
   detailConnection.className = 'connection-badge';
   if (hive.status === 'offline') {
-    detailConnection.style.background = 'rgba(107,114,128,0.12)';
-    detailConnection.style.color = '#6b7280';
-    detailConnection.style.borderColor = '#6b7280';
+    detailConnection.style.background = 'rgba(74,85,104,0.12)';
+    detailConnection.style.color = '#4a5568';
+    detailConnection.style.borderColor = '#4a5568';
   } else {
     detailConnection.style.background = '';
     detailConnection.style.color = '';
@@ -200,6 +401,15 @@ function navigateToOverview() {
   detailScreen.classList.remove('active', 'slide-in');
 
   destroyCharts();
+
+  // Switch tabs back to hives
+  const tabs = document.querySelectorAll('.bottom-tab');
+  tabs.forEach((t) => t.classList.remove('active'));
+  const hivesTab = document.querySelector('[data-tab="hives"]');
+  if (hivesTab) hivesTab.classList.add('active');
+
+  // Re-render overview
+  renderOverview();
 }
 
 // ── Health Ring ───────────────────────────────────────────────────────────
@@ -207,23 +417,23 @@ function renderHealthRing(hive) {
   const score = hive.healthScore;
   healthScoreValue.textContent = score;
 
-  const circumference = 2 * Math.PI * 52; // r=52
+  const circumference = 2 * Math.PI * 52;
   const offset = circumference - (score / 100) * circumference;
 
-  let strokeColor = '#22c55e';
+  let strokeColor = '#2ea868';
   let statusLabel = 'GOOD';
   let statusClass = 'good';
 
   if (hive.status === 'offline') {
-    strokeColor = '#6b7280';
+    strokeColor = '#4a5568';
     statusLabel = 'OFFLINE';
     statusClass = 'offline';
   } else if (score < 50) {
-    strokeColor = '#ef4444';
+    strokeColor = '#d94848';
     statusLabel = 'CRITICAL';
     statusClass = 'danger';
   } else if (score < 75) {
-    strokeColor = '#eab308';
+    strokeColor = '#d9982b';
     statusLabel = 'WARNING';
     statusClass = 'warning';
   }
@@ -241,7 +451,7 @@ function renderSensorGrid(hive) {
   if (hive.status === 'offline') {
     sensorGrid.innerHTML = `
       <div class="sensor-tile full-width" style="text-align:center;padding:20px;">
-        <span style="color:#6b7280;font-size:0.8rem;">Device offline -- no live data</span>
+        <span style="color:#54687a;font-size:0.8rem;">Device offline — no live data</span>
       </div>`;
     return;
   }
@@ -297,7 +507,7 @@ function updateDetailLiveData() {
 function renderActuators(hive) {
   if (hive.status === 'offline') {
     actuatorPanel.innerHTML = `
-      <div style="text-align:center;padding:12px;color:#6b7280;font-size:0.8rem;">Actuators unavailable -- device offline</div>`;
+      <div style="text-align:center;padding:12px;color:#54687a;font-size:0.8rem;">Actuators unavailable — device offline</div>`;
     return;
   }
 
@@ -307,14 +517,14 @@ function renderActuators(hive) {
     <div class="actuator-row">
       <span class="actuator-label">Cooling Fan</span>
       <div class="actuator-bar">
-        <div class="actuator-bar-fill ${fanLevel}" style="width:${hive.fanPWM}%"></div>
+        <div class="actuator-bar-fill ${fanLevel}" style="transform:scaleX(${(hive.fanPWM / 100).toFixed(2)})"></div>
       </div>
       <span class="actuator-value">${hive.fanPWM}%</span>
     </div>
     <div class="actuator-row">
       <span class="actuator-label">Servo Vent</span>
       <div class="actuator-bar">
-        <div class="actuator-bar-fill normal" style="width:${(hive.servoAngle / 180 * 100).toFixed(0)}%"></div>
+        <div class="actuator-bar-fill normal" style="transform:scaleX(${(hive.servoAngle / 180).toFixed(2)})"></div>
       </div>
       <span class="actuator-value">${hive.servoAngle} deg</span>
     </div>
@@ -363,6 +573,9 @@ function updateAlertBadge() {
   } else {
     alertIndicator.classList.remove('has-alerts');
   }
+
+  // Also update the bottom tab badge
+  updateTabAlertBadge();
 }
 
 // ── Status Helpers ────────────────────────────────────────────────────────
